@@ -2134,7 +2134,8 @@
         function logout() {
             if (amplitudeInitialized) {
                 window.amplitude.track('Logout Completed');
-                window.amplitude.reset();
+                // Clear User ID but keep Device ID to track same user
+                window.amplitude.setUserId(undefined);
             }
 
             currentUser = null;
