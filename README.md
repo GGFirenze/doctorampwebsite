@@ -14,6 +14,7 @@
 6. [Privacy Settings](#privacy-settings)
 7. [Event Tracking Strategy](#event-tracking-strategy)
 8. [Testing & Validation](#testing--validation)
+   - [Heatmaps Analysis with Hash-Based Routing](#5-heatmaps-analysis-with-hash-based-routing)
 9. [Production Checklist](#production-checklist)
 
 ---
@@ -26,7 +27,9 @@
 - **Amplitude Browser SDK**: v2.11.2
 - **Session Replay Plugin**: v1.20.1
 - **API Key**: Available in your Amplitude Project Settings
-- **File**: Single HTML file (`doctoraamp-demo.html`)
+- **Files**: 
+  - `doctoraamp-demo.html` - Standard version
+  - `doctoraamp-demo-heatmaps.html` - Enhanced with hash-based routing for Heatmaps
 
 ---
 
@@ -35,7 +38,7 @@
 ### 🏥 Healthcare Platform Features
 - **Homepage** with hero search and specialty browsing
 - **Doctor Listings** with filters (availability, consultation type, rating, languages)
-- **5 Sample Doctors** with profiles, ratings, reviews, and availability
+- **Sample Doctors**: 5 doctors (standard version) or 19 doctors across 8 specialties (heatmaps version)
 - **3-Step Booking Flow**:
   1. Select appointment time
   2. Enter patient details
@@ -388,13 +391,92 @@ Use Amplitude's **Ingestion Monitor** to validate Session Replay:
      - `last_name: "User"`
      - `user_type: "patient"`
 
-### 5. Heatmaps (Future Enhancement)
+### 5. Heatmaps Analysis with Hash-Based Routing
 
-Amplitude's Heatmaps allows you to:
+#### Two Demo Versions Available
 
-- **Click Heatmaps**: See where users click most
-- **Scroll Heatmaps**: Understand content engagement
-- **Rage Clicks**: Identify frustration points
+**Standard Version**: `doctoraamp-demo.html`
+- Single homepage and doctor listings page
+- Suitable for basic Session Replay testing
+
+**Heatmaps Version**: `doctoraamp-demo-heatmaps.html` ✨
+- **Enhanced with hash-based routing** for specialty pages
+- Each specialty has its own unique URL
+- **Recommended for Heatmap analysis**
+
+#### How Hash-Based Routing Works
+
+When users click on a specialty card (e.g., "Ophthalmologist"), the URL changes to include a hash:
+
+```
+Home:                → doctoraamp-demo-heatmaps.html
+Ophthalmologist:     → doctoraamp-demo-heatmaps.html#specialty/ophthalmologist
+Gynecologist:        → doctoraamp-demo-heatmaps.html#specialty/gynecologist
+Psychologist:        → doctoraamp-demo-heatmaps.html#specialty/psychologist
+Cardiologist:        → doctoraamp-demo-heatmaps.html#specialty/cardiologist
+Dermatologist:       → doctoraamp-demo-heatmaps.html#specialty/dermatologist
+Pediatrician:        → doctoraamp-demo-heatmaps.html#specialty/pediatrician
+Dentist:             → doctoraamp-demo-heatmaps.html#specialty/dentist
+General Practitioner → doctoraamp-demo-heatmaps.html#specialty/general-practitioner
+```
+
+#### Benefits for Heatmap Analysis
+
+**Separate Heatmaps Per Specialty:**
+- Each specialty page has its own unique URL
+- Amplitude can create individual heatmaps for each page
+- Compare user behavior across different specialties
+
+**Enhanced Insights:**
+- 🔍 **Click Heatmaps**: Which doctors get clicked most per specialty?
+- 📊 **Engagement Patterns**: Do users interact differently on Psychology vs Cardiology pages?
+- 🎯 **Conversion Analysis**: Which specialties have highest booking rates?
+- 🔄 **Rage Click Detection**: Identify frustration points on specific specialty pages
+- 📈 **Scroll Depth**: How far do users scroll on each specialty listing?
+
+#### Technical Implementation
+
+**Doctor Data:**
+- 19 doctors across 8 specialties (2-3 per specialty)
+- Specialty-specific names, addresses, and badges
+- Each specialty filtered automatically when navigating
+
+**Routing Features:**
+- ✅ Browser back/forward buttons work
+- ✅ Can bookmark specific specialty pages
+- ✅ Page title updates dynamically
+- ✅ Clean URLs without page reloads (SPA)
+- ✅ All analytics continue working
+
+**Page View Tracking:**
+```javascript
+window.amplitude.track('Page Viewed', {
+    page_name: 'Ophthalmologist Listings',
+    page_path: '/doctoraamp-demo-heatmaps.html#specialty/ophthalmologist',
+    page_title: 'Ophthalmologist in London - DoctorAmp',
+    specialty: 'Ophthalmologist'
+});
+```
+
+#### When to Use Each Version
+
+| Use Case | File to Use |
+|----------|-------------|
+| Session Replay testing | Either version works |
+| Basic event tracking | `doctoraamp-demo.html` (simpler) |
+| **Heatmaps analysis** | **`doctoraamp-demo-heatmaps.html`** ✅ |
+| A/B testing different specialties | `doctoraamp-demo-heatmaps.html` |
+| Comparing conversion by specialty | `doctoraamp-demo-heatmaps.html` |
+
+#### Heatmaps Best Practices
+
+When using Amplitude Heatmaps:
+
+1. **Generate Traffic**: Have multiple users visit each specialty page
+2. **Compare Patterns**: Look for differences in click behavior across specialties
+3. **Identify Issues**: Find pages with unusual click patterns or rage clicks
+4. **Optimize Layout**: Use heatmap data to improve doctor card positioning
+5. **Test Changes**: Compare heatmaps before/after UX improvements
 
 📖 **Reference**: [Heatmaps Documentation](https://amplitude.com/docs/session-replay/heatmaps)
 
@@ -502,11 +584,12 @@ For questions or issues:
 
 ---
 
-**Version**: 1.0  
+**Version**: 1.1 (Heatmaps Enhanced)  
 **Last Updated**: November 2025  
-**Demo File**: `doctoraamp-demo.html`  
+**Demo Files**: 
+- `doctoraamp-demo.html` (Standard)
+- `doctoraamp-demo-heatmaps.html` (Hash-based routing for Heatmaps)
 
 ---
 
 *Built with ❤️ by Giuliano Giannini. Powered by Amplitude Analytics.*
-
