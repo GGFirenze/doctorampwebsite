@@ -25,7 +25,7 @@
 ### Key Technologies
 - **Amplitude Browser SDK**: v2.11.2
 - **Session Replay Plugin**: v1.20.1
-- **API Key**: `402f74eb881e1a4fd0b96855e323473d`
+- **API Key**: Available in your Amplitude Project Settings
 - **File**: Single HTML file (`doctoraamp-demo.html`)
 
 ---
