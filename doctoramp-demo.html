@@ -1,5 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
+<!-- 
+    DoctorAmp - Heatmaps Version
+    =============================
+    Enhanced with hash-based routing for Amplitude Heatmaps
+    
+    Each specialty now has its own unique URL:
+    - #specialty/ophthalmologist
+    - #specialty/gynecologist  
+    - #specialty/psychologist
+    - etc.
+    
+    This enables separate heatmap analysis per specialty page!
+-->
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -1182,7 +1195,7 @@
     <!-- Header -->
     <header class="header">
         <div class="header-container">
-            <div class="logo" onclick="goToHome()">
+            <div class="logo" onclick="window.location.hash = ''; goToHome();">
                 🩺 DoctorAmp
             </div>
             <nav class="nav-links">
@@ -1245,35 +1258,35 @@
             <div class="container">
                 <h2 class="section-title">Browse by specialty</h2>
                 <div class="specialty-grid">
-                    <div class="specialty-card" onclick="selectSpecialty('General Practitioner')">
+                    <div class="specialty-card" onclick="navigateToSpecialty('General Practitioner')">
                         <div class="specialty-icon">👨‍⚕️</div>
                         <div class="specialty-name">General Practitioner</div>
                     </div>
-                    <div class="specialty-card" onclick="selectSpecialty('Dentist')">
+                    <div class="specialty-card" onclick="navigateToSpecialty('Dentist')">
                         <div class="specialty-icon">🦷</div>
                         <div class="specialty-name">Dentist</div>
                     </div>
-                    <div class="specialty-card" onclick="selectSpecialty('Dermatologist')">
+                    <div class="specialty-card" onclick="navigateToSpecialty('Dermatologist')">
                         <div class="specialty-icon">💆</div>
                         <div class="specialty-name">Dermatologist</div>
                     </div>
-                    <div class="specialty-card" onclick="selectSpecialty('Cardiologist')">
+                    <div class="specialty-card" onclick="navigateToSpecialty('Cardiologist')">
                         <div class="specialty-icon">❤️</div>
                         <div class="specialty-name">Cardiologist</div>
                     </div>
-                    <div class="specialty-card" onclick="selectSpecialty('Pediatrician')">
+                    <div class="specialty-card" onclick="navigateToSpecialty('Pediatrician')">
                         <div class="specialty-icon">👶</div>
                         <div class="specialty-name">Pediatrician</div>
                     </div>
-                    <div class="specialty-card" onclick="selectSpecialty('Psychologist')">
+                    <div class="specialty-card" onclick="navigateToSpecialty('Psychologist')">
                         <div class="specialty-icon">🧠</div>
                         <div class="specialty-name">Psychologist</div>
                     </div>
-                    <div class="specialty-card" onclick="selectSpecialty('Ophthalmologist')">
+                    <div class="specialty-card" onclick="navigateToSpecialty('Ophthalmologist')">
                         <div class="specialty-icon">👁️</div>
                         <div class="specialty-name">Ophthalmologist</div>
                     </div>
-                    <div class="specialty-card" onclick="selectSpecialty('Gynecologist')">
+                    <div class="specialty-card" onclick="navigateToSpecialty('Gynecologist')">
                         <div class="specialty-icon">👩‍⚕️</div>
                         <div class="specialty-name">Gynecologist</div>
                     </div>
@@ -1331,7 +1344,12 @@
     <!-- Doctor Listing Page -->
     <div class="page" id="doctorsPage">
         <div class="search-results-header">
-            <h1 id="searchResultsTitle">General Practitioners in London</h1>
+            <div style="max-width: 1200px; margin: 0 auto; display: flex; align-items: center; gap: 20px;">
+                <a href="#" onclick="window.location.hash = ''; return false;" style="color: #0596de; text-decoration: none; font-weight: 600; display: flex; align-items: center; gap: 5px;">
+                    ← Back to home
+                </a>
+                <h1 id="searchResultsTitle" style="flex: 1; margin: 0;">General Practitioners in London</h1>
+            </div>
         </div>
         <div class="doctors-layout">
             <!-- Filters Sidebar -->
@@ -1640,9 +1658,11 @@
         let bookingData = {};
         let authFlow = 'login'; // 'login' or 'signup'
         let tempEmail = '';
+        let currentSpecialty = null; // Track current specialty for filtering
 
-        // Sample doctors data
+        // Sample doctors data - expanded for multiple specialties
         const doctors = [
+            // General Practitioners
             {
                 id: 1,
                 name: 'Dr. Sarah Johnson',
@@ -1665,38 +1685,166 @@
                 badges: ['Experienced', 'Video consultation'],
                 timeSlots: ['09:30', '11:00', '15:00', '17:00']
             },
+            // Ophthalmologists
             {
-                id: 3,
-                name: 'Dr. Emily Roberts',
-                specialty: 'General Practitioner',
-                rating: 5.0,
-                reviews: 312,
-                address: '78 Oxford Street, London W1D 1BS',
-                photo: '👩‍⚕️',
-                badges: ['Top rated', 'New patients', 'Same-day appointments'],
-                timeSlots: ['08:30', '10:00', '13:30', '16:00']
-            },
-            {
-                id: 4,
-                name: 'Dr. James Wilson',
-                specialty: 'General Practitioner',
-                rating: 4.7,
-                reviews: 156,
-                address: '22 King Street, London SW1Y 6QY',
-                photo: '👨‍⚕️',
-                badges: ['Video consultation', 'Weekend appointments'],
-                timeSlots: ['10:00', '12:00', '14:30', '17:30']
-            },
-            {
-                id: 5,
-                name: 'Dr. Priya Patel',
-                specialty: 'General Practitioner',
+                id: 6,
+                name: 'Dr. Emma Vision',
+                specialty: 'Ophthalmologist',
                 rating: 4.9,
-                reviews: 267,
-                address: '56 Regent Street, London W1B 5RA',
+                reviews: 198,
+                address: '89 Moorfields Eye Hospital, London EC1V 2PD',
+                photo: '👁️',
+                badges: ['Eye specialist', 'Laser surgery', 'New patients'],
+                timeSlots: ['09:00', '11:00', '14:30', '16:00']
+            },
+            {
+                id: 7,
+                name: 'Dr. David Sight',
+                specialty: 'Ophthalmologist',
+                rating: 4.8,
+                reviews: 145,
+                address: '34 Western Eye Hospital, London NW1 5QH',
+                photo: '👨‍⚕️',
+                badges: ['Cataract specialist', 'Video consultation'],
+                timeSlots: ['08:30', '10:30', '13:00', '15:30']
+            },
+            // Gynecologists
+            {
+                id: 8,
+                name: 'Dr. Sophie Williams',
+                specialty: 'Gynecologist',
+                rating: 5.0,
+                reviews: 278,
+                address: '12 Portland Place, London W1B 1QU',
                 photo: '👩‍⚕️',
-                badges: ['Multilingual', 'New patients', 'Video consultation'],
-                timeSlots: ['09:00', '11:30', '14:00', '16:00']
+                badges: ['Women\'s health', 'New patients', 'Video consultation'],
+                timeSlots: ['09:00', '11:30', '14:00', '16:30']
+            },
+            {
+                id: 9,
+                name: 'Dr. Rachel Green',
+                specialty: 'Gynecologist',
+                rating: 4.9,
+                reviews: 221,
+                address: '67 Harley Street, London W1G 8QD',
+                photo: '👩‍⚕️',
+                badges: ['Prenatal care', 'Same-day appointments'],
+                timeSlots: ['08:00', '10:00', '13:30', '17:00']
+            },
+            // Psychologists
+            {
+                id: 10,
+                name: 'Dr. James Mind',
+                specialty: 'Psychologist',
+                rating: 4.8,
+                reviews: 167,
+                address: '45 Wimpole Street, London W1G 8SE',
+                photo: '🧠',
+                badges: ['CBT specialist', 'Video consultation', 'Evening appointments'],
+                timeSlots: ['10:00', '12:00', '15:00', '18:00']
+            },
+            {
+                id: 11,
+                name: 'Dr. Anna Wellness',
+                specialty: 'Psychologist',
+                rating: 4.9,
+                reviews: 203,
+                address: '23 Cavendish Square, London W1G 0PN',
+                photo: '👩‍⚕️',
+                badges: ['Anxiety & depression', 'New patients', 'Weekend appointments'],
+                timeSlots: ['09:30', '11:30', '14:30', '16:30']
+            },
+            // Cardiologists
+            {
+                id: 12,
+                name: 'Dr. Robert Heart',
+                specialty: 'Cardiologist',
+                rating: 4.9,
+                reviews: 189,
+                address: '78 Harefield Hospital, Middlesex UB9 6JH',
+                photo: '❤️',
+                badges: ['Heart specialist', 'ECG testing', 'New patients'],
+                timeSlots: ['09:00', '11:00', '14:00', '16:00']
+            },
+            {
+                id: 13,
+                name: 'Dr. Maria Cardio',
+                specialty: 'Cardiologist',
+                rating: 4.8,
+                reviews: 176,
+                address: '56 St Bartholomew\'s Hospital, London EC1A 7BE',
+                photo: '👩‍⚕️',
+                badges: ['Hypertension specialist', 'Video consultation'],
+                timeSlots: ['08:30', '10:30', '13:30', '15:30']
+            },
+            // Dermatologists
+            {
+                id: 14,
+                name: 'Dr. Lisa Skin',
+                specialty: 'Dermatologist',
+                rating: 5.0,
+                reviews: 245,
+                address: '90 Cadogan Clinic, London SW3 2RP',
+                photo: '💆',
+                badges: ['Skin specialist', 'Acne treatment', 'New patients'],
+                timeSlots: ['09:00', '11:00', '14:00', '16:30']
+            },
+            {
+                id: 15,
+                name: 'Dr. Tom Dermis',
+                specialty: 'Dermatologist',
+                rating: 4.8,
+                reviews: 198,
+                address: '45 Guy\'s Hospital, London SE1 9RT',
+                photo: '👨‍⚕️',
+                badges: ['Eczema specialist', 'Video consultation', 'Same-day appointments'],
+                timeSlots: ['08:30', '10:30', '13:00', '17:00']
+            },
+            // Pediatricians
+            {
+                id: 16,
+                name: 'Dr. Emma Child',
+                specialty: 'Pediatrician',
+                rating: 4.9,
+                reviews: 312,
+                address: '34 Great Ormond Street Hospital, London WC1N 3JH',
+                photo: '👶',
+                badges: ['Child specialist', 'Vaccination', 'New patients'],
+                timeSlots: ['09:00', '11:00', '14:00', '16:00']
+            },
+            {
+                id: 17,
+                name: 'Dr. Peter Kids',
+                specialty: 'Pediatrician',
+                rating: 4.8,
+                reviews: 267,
+                address: '78 Chelsea and Westminster Hospital, London SW10 9NH',
+                photo: '👨‍⚕️',
+                badges: ['Newborn care', 'Video consultation', 'Weekend appointments'],
+                timeSlots: ['08:00', '10:00', '13:30', '15:30']
+            },
+            // Dentists
+            {
+                id: 18,
+                name: 'Dr. Alex Tooth',
+                specialty: 'Dentist',
+                rating: 4.9,
+                reviews: 223,
+                address: '12 Dental Centre, London W1F 9JE',
+                photo: '🦷',
+                badges: ['Dental specialist', 'Emergency appointments', 'New patients'],
+                timeSlots: ['09:00', '11:30', '14:00', '16:30']
+            },
+            {
+                id: 19,
+                name: 'Dr. Nina Smile',
+                specialty: 'Dentist',
+                rating: 4.8,
+                reviews: 187,
+                address: '56 Harley Street Dental, London W1G 9PJ',
+                photo: '👩‍⚕️',
+                badges: ['Cosmetic dentistry', 'Video consultation'],
+                timeSlots: ['08:30', '10:00', '13:00', '17:00']
             }
         ];
 
@@ -1771,26 +1919,106 @@
             }
         }
 
+        // ============================================
+        // HASH-BASED ROUTING FOR HEATMAPS
+        // ============================================
+        // Each specialty gets its own unique URL via hash routing:
+        // - #specialty/ophthalmologist
+        // - #specialty/gynecologist
+        // - #specialty/psychologist
+        // etc.
+        //
+        // Benefits for Amplitude Heatmaps:
+        // ✅ Separate heatmaps for each specialty page
+        // ✅ Compare click patterns across specialties
+        // ✅ See which doctors get most clicks per specialty
+        // ✅ Identify UX issues specific to each page
+        // ✅ Browser back/forward buttons work
+        // ✅ Can bookmark specific specialties
+        // ============================================
+        
+        // Navigate to specialty page with URL hash
+        function navigateToSpecialty(specialty) {
+            const specialtySlug = specialty.toLowerCase().replace(/\s+/g, '-');
+            window.location.hash = `specialty/${specialtySlug}`;
+            
+            if (amplitudeInitialized) {
+                window.amplitude.track('Specialty Selected', {
+                    specialty: specialty,
+                    selection_method: 'card_click'
+                });
+            }
+        }
+        
+        // Handle URL hash changes
+        function handleRouteChange() {
+            const hash = window.location.hash;
+            
+            if (!hash || hash === '#' || hash === '#home') {
+                goToHome();
+            } else if (hash.startsWith('#specialty/')) {
+                const specialtySlug = hash.replace('#specialty/', '');
+                const specialty = specialtySlug.split('-').map(word => 
+                    word.charAt(0).toUpperCase() + word.slice(1)
+                ).join(' ');
+                goToSpecialtyPage(specialty);
+            }
+        }
+        
+        // Listen for hash changes (browser back/forward buttons)
+        window.addEventListener('hashchange', handleRouteChange);
+        
         // Page Navigation
         function goToHome() {
+            currentSpecialty = null;
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
             document.getElementById('homePage').classList.add('active');
             
+            // Update page title
+            document.title = 'DoctorAmp - Book a doctor appointment online';
+            
             if (amplitudeInitialized) {
                 window.amplitude.track('Page Viewed', {
-                    page_name: 'Home'
+                    page_name: 'Home',
+                    page_path: window.location.pathname + window.location.hash
+                });
+            }
+        }
+
+        function goToSpecialtyPage(specialty) {
+            currentSpecialty = specialty;
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.getElementById('doctorsPage').classList.add('active');
+            
+            // Update page title (browser tab)
+            document.title = `${specialty} in London - DoctorAmp`;
+            
+            // Update heading
+            document.getElementById('searchResultsTitle').textContent = `${specialty} in London`;
+            
+            // Render filtered doctors
+            renderDoctors(specialty);
+            
+            if (amplitudeInitialized) {
+                window.amplitude.track('Page Viewed', {
+                    page_name: `${specialty} Listings`,
+                    page_path: window.location.pathname + window.location.hash,
+                    page_title: document.title,
+                    specialty: specialty
                 });
             }
         }
 
         function goToDoctorsPage() {
+            currentSpecialty = null;
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
             document.getElementById('doctorsPage').classList.add('active');
             renderDoctors();
             
             if (amplitudeInitialized) {
                 window.amplitude.track('Page Viewed', {
-                    page_name: 'Doctor Listings'
+                    page_name: 'Doctor Listings',
+                    page_path: window.location.pathname + window.location.hash
                 });
             }
         }
@@ -1836,19 +2064,31 @@
             if (amplitudeInitialized) {
                 window.amplitude.track('Specialty Selected', {
                     specialty: specialty,
-                    selection_method: 'card_click'
+                    selection_method: 'search'
                 });
             }
 
             document.getElementById('searchResultsTitle').textContent = 
                 `${specialty} doctors near you`;
+            currentSpecialty = specialty;
             goToDoctorsPage();
         }
 
-        // Render Doctors List
-        function renderDoctors() {
+        // Render Doctors List (with optional specialty filter)
+        function renderDoctors(filterSpecialty = null) {
             const list = document.getElementById('doctorsList');
-            list.innerHTML = doctors.map(doctor => `
+            
+            // Filter doctors by specialty if provided
+            let filteredDoctors = filterSpecialty 
+                ? doctors.filter(d => d.specialty === filterSpecialty)
+                : doctors;
+            
+            // If no doctors found for specialty, show all
+            if (filteredDoctors.length === 0) {
+                filteredDoctors = doctors;
+            }
+            
+            list.innerHTML = filteredDoctors.map(doctor => `
                 <div class="doctor-card" onclick="trackDoctorCardClick(${doctor.id})">
                     <div class="doctor-photo">${doctor.photo}</div>
                     <div class="doctor-info">
@@ -2304,6 +2544,9 @@
             console.log('📄 DoctorAmp page loaded');
             console.log('⏳ Amplitude SDK loaded but NOT initialized - waiting for cookie consent...');
             checkCookieConsent();
+            
+            // Initialize hash-based routing
+            handleRouteChange();
         });
 
         /* ============================================
