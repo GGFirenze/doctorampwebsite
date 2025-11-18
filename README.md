@@ -390,7 +390,7 @@ Use Amplitude's **Ingestion Monitor** to validate Session Replay:
 
 ### 5. Heatmaps (Future Enhancement)
 
-Amplitude's Heatmaps feature is currently in development. When available:
+Amplitude's Heatmaps allows you to:
 
 - **Click Heatmaps**: See where users click most
 - **Scroll Heatmaps**: Understand content engagement
@@ -503,9 +503,8 @@ For questions or issues:
 ---
 
 **Version**: 1.0  
-**Last Updated**: November 2024  
+**Last Updated**: November 2025  
 **Demo File**: `doctoraamp-demo.html`  
-**Amplitude API Key**: `402f74eb881e1a4fd0b96855e323473d`
 
 ---
 
