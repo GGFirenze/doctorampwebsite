@@ -508,5 +508,5 @@ For questions or issues:
 
 ---
 
-*Built with ❤️ for better healthcare access. Powered by Amplitude Analytics.*
+*Built with ❤️ by Giuliano Giannini. Powered by Amplitude Analytics.*
 
