@@ -72,7 +72,7 @@ window.amplitude.add(window.sessionReplay.plugin({sampleRate: 1}));
 window.amplitude.init('AMPLITUDE_PROJECT_API_KEY', {
     fetchRemoteConfig: true,
     autocapture: {
-        attribution: true,           // ✅ UTM parameters, referrers, campaigns
+        attribution: true,            // ✅ UTM parameters, referrers, campaigns
         pageViews: true,              // ✅ Automatic page view tracking
         sessions: true,               // ✅ Session start/end events
         elementInteractions: false,   // ❌ Disabled for cleaner analytics
