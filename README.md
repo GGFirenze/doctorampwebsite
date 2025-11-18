@@ -66,7 +66,7 @@ The SDK is configured using **manual loading** to ensure GDPR compliance:
 window.amplitude.add(window.sessionReplay.plugin({sampleRate: 1}));
 
 // SDK Initialization
-window.amplitude.init('402f74eb881e1a4fd0b96855e323473d', {
+window.amplitude.init('AMPLITUDE_PROJECT_API_KEY', {
     fetchRemoteConfig: true,
     autocapture: {
         attribution: true,           // ✅ UTM parameters, referrers, campaigns
