@@ -20,7 +20,7 @@
 
 ## Overview
 
-**DoctorAmp** is a Doctolib-inspired medical appointment booking platform built to demonstrate Amplitude Browser SDK 2.0 capabilities with full GDPR and French CNIL compliance.
+**DoctorAmp** is a healthcare-inspired medical appointment booking platform built to demonstrate Amplitude Browser SDK 2.0 capabilities with full GDPR and French CNIL compliance.
 
 ### Key Technologies
 - **Amplitude Browser SDK**: v2.11.2
@@ -107,7 +107,7 @@ The **CNIL (Commission Nationale de l'Informatique et des Libertés)** is France
 
 ### Implementation Approach
 
-#### 1. **Cookie Consent Modal** (Doctolib-Style)
+#### 1. **Cookie Consent Modal**
 
 **Features:**
 - Centered modal overlay with blur effect on background
