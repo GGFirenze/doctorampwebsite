@@ -1639,7 +1639,7 @@
     <!-- End Main Content Wrapper -->
 
     <!-- Amplitude Browser SDK 2.0 with Session Replay - Manual Loading for GDPR Compliance -->
-    <script src="https://cdn.amplitude.com/libs/analytics-browser-2.11.2-min.js.gz"></script>
+    <script src="https://cdn.amplitude.com/libs/analytics-browser-2.31.3-min.js.gz"></script>
     <script src="https://cdn.amplitude.com/libs/plugin-session-replay-browser-1.20.1-min.js.gz"></script>
     
     <script>
@@ -1861,12 +1861,13 @@
             window.amplitude.init(AMPLITUDE_API_KEY, {
                 fetchRemoteConfig: true,
                 autocapture: {
-                    attribution: true,        // ✅ Track UTM parameters, referrers, campaign data
-                    pageViews: true,          // ✅ Track page views automatically
-                    sessions: true,           // ✅ Track session start/end
-                    elementInteractions: false, // ❌ Turn off Element Clicked events
-                    formInteractions: false,    // ❌ Turn off form tracking
-                    fileDownloads: false        // ❌ Turn off file download tracking
+                    attribution: true,        // ✅ Tracks UTM parameters, referrers, campaign data
+                    pageViews: true,          // ✅ Tracks page views automatically
+                    sessions: true,           // ✅ Tracks session start/end
+                    elementInteractions: false, // ❌ Turns off Element Clicked events
+                    formInteractions: false,    // ❌ Turns off form tracking
+                    fileDownloads: false,        // ❌ Turns off file download tracking
+                    frustrationInteractions: true // ✅ Tracks rage clicks and dead clicks
                 }
             });
 
